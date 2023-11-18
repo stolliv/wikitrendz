@@ -1,12 +1,16 @@
 from pytrends.request import TrendReq
+import pandas
 
 class Data_grabber:
     def __init__(self):
         self.pytrends = TrendReq(hl='en-US', tz=360)
-        self.wiki_data
+        self.wiki_data = None
 
     def get_trends_data(self):
-        pass
+        keyword_list = ["cats"]
+        self.pytrends.build_payload(keyword_list, cat=0, timeframe='today 5-y', geo='', gprop='')
+        interest_over_time = self.pytrends.interest_over_time()
+        return interest_over_time
 
     def get_wiki_data(self):
         pass
