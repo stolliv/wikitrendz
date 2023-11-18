@@ -1,5 +1,5 @@
 from pytrends.request import TrendReq
-import pandas
+import pandas as pd
 
 class Data_grabber:
     def __init__(self):
