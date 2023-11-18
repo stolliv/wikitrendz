@@ -6,7 +6,7 @@ class Data_grabber:
         self.pytrends = TrendReq(hl='en-US', tz=360)
         self.wiki_data = None
 
-    def get_trends_data(self, keyword: str):
+    def get_trends_data(self, keyword: str): # TODO: Add timeframe as parameter
         keyword_list = [keyword]
         self.pytrends.build_payload(keyword_list, cat=0, timeframe='today 5-y', geo='', gprop='')
         interest_over_time = self.pytrends.interest_over_time()
