@@ -1,6 +1,6 @@
 from pytrends.request import TrendReq
 
-class data_grabber():
+class Data_grabber:
     def __init__(self):
         self.pytrends = TrendReq(hl='en-US', tz=360)
         self.wiki_data
