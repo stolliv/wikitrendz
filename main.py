@@ -1,11 +1,9 @@
 import tkinter as tk
 from tkinter import messagebox
 import csv
-
-# Funktion zum Laden der Titel aus der CSV-Datei
 from vision import plot_data
 
-
+# Funktion zum Laden der Titel aus der CSV-Datei
 def load_titles_from_csv(filename, max_titles=10000):
     with open(filename, mode='r', encoding='utf-8') as file:
         reader = csv.reader(file)
@@ -13,37 +11,40 @@ def load_titles_from_csv(filename, max_titles=10000):
         return titles[:max_titles]
 
 def on_listbox_select(event):
-    # Holt den ausgewählten Text aus der Listbox
     widget = event.widget
     if widget.curselection():
         index = int(widget.curselection()[0])
         value = widget.get(index)
         entry.delete(0, tk.END)
         entry.insert(0, value)
-        fetch_and_plot()  # Führt die Suchfunktion aus mit dem ausgewählten Titel
+        fetch_and_plot()
 
 def fetch_and_plot():
-    keyword = entry.get().strip()  # Entfernt führende und abschließende Leerzeichen
-    if not keyword:  # Überprüft, ob das Eingabefeld leer ist
+    keyword = entry.get().strip()
+    if not keyword:
         messagebox.showwarning("Warnung", "Bitte geben Sie ein gültiges Keyword ein.")
         return
     success = plot_data(keyword)
-    if not success:
+    if (success == True):
+        print("close diagram")
+    elif (success == - 1):
         messagebox.showinfo("Information", "Keine Daten gefunden. Bitte versuchen Sie einen anderen Begriff.")
+    elif (success == -2):
+        messagebox.showinfo("Warnung", "Google verweigert wieder den Zugriff auf diesen Begriff! Versuchen Sie einen")
+    else:
+        messagebox.showinfo("Warnung", "Hm...Schwierig!")
 
 
 # Auto-Vervollständigungsfunktion
-def autocomplete(entry_widget, titles_list, listbox):
-    text = entry_widget.get()
+def autocomplete(event):
+    text = entry.get()
     if text == '':
         listbox.delete(0, tk.END)
         return
-    matches = [title for title in titles_list if title.lower().startswith(text.lower())]
+    matches = [title for title in titles if title.lower().startswith(text.lower())]
     listbox.delete(0, tk.END)
     for match in matches:
         listbox.insert(tk.END, match)
-
-
 
 # Initialisieren des Tkinter-Fensters
 root = tk.Tk()
@@ -59,17 +60,20 @@ label = tk.Label(main_frame, text="Geben Sie ein Keyword ein:", font=("Arial", 1
 label.pack(pady=(0, 10))
 
 # Eingabefeld und Listbox
-entry = tk.Entry(main_frame, font=("Arial", 12), width=50)
+entry = tk.Entry(main_frame, font=("Helvetica", 14), width=50, bg="#f0f0f0", fg="black")
 entry.pack()
 
-listbox = tk.Listbox(main_frame, width=50)
+frame_for_listbox = tk.Frame(main_frame, bg="#dddddd", padx=5, pady=5)
+frame_for_listbox.pack(padx=5, pady=5)
+
+listbox = tk.Listbox(frame_for_listbox, width=50, bg="#ffffff", fg="black", selectbackground="#a0a0a0", font=("Helvetica", 12))
 listbox.pack()
 
 # Laden der Titel
 titles = load_titles_from_csv('title.csv')
 
 # Event-Bindung für Auto-Vervollständigung
-entry.bind('<KeyRelease>', lambda event: autocomplete(entry, titles, listbox))
+entry.bind('<KeyRelease>', autocomplete)
 
 # Bindung der Listbox-Selektion an die on_listbox_select Funktion
 listbox.bind('<<ListboxSelect>>', on_listbox_select)

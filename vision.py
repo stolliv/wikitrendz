@@ -3,20 +3,22 @@ from data_grabber import Data_grabber
 
 def plot_data(keyword):
     data_fetcher = Data_grabber()
+    try:
+        # Google Trends Daten abrufen
+        trends_data = data_fetcher.get_trends_data(keyword)
 
-    # Google Trends Daten abrufen
-    trends_data = data_fetcher.get_trends_data(keyword)
+        # Wikipedia-Daten abrufen
+        wiki_data = data_fetcher.get_wiki_data(keyword, "2022-01-01T00:00:00Z", "2022-12-31T23:59:59Z")
 
-    # Wikipedia-Daten abrufen
-    wiki_data = data_fetcher.get_wiki_data(keyword, "2022-01-01T00:00:00Z", "2022-12-31T23:59:59Z")
+        print("wiki_data")
+        print(wiki_data)
+        print("trends")
+        print(trends_data)
 
-    print("wiki_data")
-    print(wiki_data)
-    print("trends")
-    print(trends_data)
-
-    if trends_data.empty or wiki_data.empty:
-        return False
+        if trends_data.empty or wiki_data.empty:
+            return -1
+    except:
+        return -2
 
     # Plot-Erstellung
     fig, ax1 = plt.subplots(figsize=(12, 6))
