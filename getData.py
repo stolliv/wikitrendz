@@ -31,4 +31,5 @@ def save_titles_to_csv(filename, start_title=None):
                 break
 
 # Fortsetzen des Speicherns der Titel in der CSV-Datei
-save_titles_to_csv('wikipedia_titles.csv', start_title='Toxicity (System of a Down Single)')
+save_titles_to_csv('wiki_titles.csv', start_title='Roger Bailey')
+#save_titles_to_csv('wiki_titles.csv')
