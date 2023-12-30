@@ -26,6 +26,7 @@ def load_trie(max_titles):
 
         update_label("Trie geladen!")
         update_Lable_label("Geben Sie ein Keyword ein:")
+        load_button.config(state="disabled")
 
     except Exception as e:
         update_label(f"Fehler beim Laden: {e}")
