@@ -13,18 +13,21 @@ class Trie:
             node = node.children[char]
         node.is_end_of_word = True
 
-    def search(self, prefix):
+    def search(self, prefix, limit=10):
         node = self.root
         for char in prefix:
             if char not in node.children:
                 return []
             node = node.children[char]
-        return self._find_words_from_node(node, prefix)
+        return self._find_words_from_node(node, prefix,limit)
 
-    def _find_words_from_node(self, node, prefix):
+    def _find_words_from_node(self, node, prefix, limit):
         words = []
-        if node.is_end_of_word:
-            words.append(prefix)
-        for char, next_node in node.children.items():
-            words.extend(self._find_words_from_node(next_node, prefix + char))
-        return words
+        if len(words) < limit:
+            if node.is_end_of_word:
+                words.append(prefix)
+            for char, next_node in node.children.items():
+                words.extend(self._find_words_from_node(next_node, prefix + char, limit))
+                if len(words) >= limit:
+                    break
+        return words[:limit]
