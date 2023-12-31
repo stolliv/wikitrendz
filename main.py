@@ -11,7 +11,7 @@ from vision import plot_data
 def load_trie(max_titles):
     global trie_loaded
     start_time = time.time()
-
+    
     try:
         trie_loaded = Trie()
         with open('wiki_titles.csv', 'r', encoding='utf-8') as file:
@@ -79,11 +79,11 @@ def autocomplete(event):
 
 def start_loading():
     max_titles = int(entry_load.get())
-    if 1 <= max_titles <= 16:
+    if 1 <= max_titles <= 17:
         update_label("Lade Trie...")
         threading.Thread(target=lambda: load_trie(max_titles), daemon=True).start()
     else:
-        messagebox.showwarning("Warnung", "Bitte geben Sie eine Zahl zwischen 1 und 16 ein.")
+        messagebox.showwarning("Warnung", "Bitte geben Sie eine Zahl zwischen 1 und 17 ein.")
 
 
 root = tk.Tk()
@@ -96,7 +96,7 @@ main_frame.pack(padx=10, pady=10)
 status_label = Label(main_frame, text="", font=("Arial", 12))
 status_label.pack(pady=(0, 10))
 
-label_load = tk.Label(main_frame, text="Anzahl der zu ladenden Titel (1-16) in Millionen:", font=("Arial", 14))
+label_load = tk.Label(main_frame, text="Anzahl der zu ladenden Titel (1-17) in Millionen:", font=("Arial", 14))
 label_load.pack(pady=(0, 10))
 
 entry_load = tk.Entry(main_frame, font=("Helvetica", 14), width=20, bg="#f0f0f0", fg="black")
